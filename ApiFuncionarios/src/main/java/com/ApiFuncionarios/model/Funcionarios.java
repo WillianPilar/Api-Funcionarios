@@ -1,6 +1,10 @@
 package com.ApiFuncionarios.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import lombok.NoArgsConstructor;
 
@@ -8,10 +12,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Funcionarios {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int id;
+	
+	@Column(nullable = false, length = 100) //Para criar coluna no BD e passar as definições
 	private String nome;
+	
+	@Column(nullable = false, length = 100)
 	private String setor;
+	
+	@Column(nullable = false, length = 100)
 	private String gestorDoFuncionario;
+	
+	@Column(nullable = false, length = 20)
 	private Double salarioBruto;
+	
+	@Column(nullable = false, length = 20)
 	private boolean valeTransporte;
 	
 	public Funcionarios(String nome, String setor, String gestorDoFuncionario, Double salarioBruto,
@@ -22,7 +39,7 @@ public class Funcionarios {
 		this.setSalarioBruto(salarioBruto);
 		this.setValeTransporte(valeTransporte);
 	}
-
+	
 	public String getNome() {
 		return nome;
 	}
