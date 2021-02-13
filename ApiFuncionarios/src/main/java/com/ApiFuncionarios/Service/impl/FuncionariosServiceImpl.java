@@ -1,23 +1,23 @@
-package com.ApiFuncionarios.Service.impl;
+package com.ApiFuncionarios.Service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ApiFuncionarios.Service.FuncionariosService;
 import com.ApiFuncionarios.model.Funcionarios;
-import com.ApiFuncionarios.repository.FuncionariosRespository;
+import com.ApiFuncionarios.repository.FuncionariosRepository;
 
 @Service
 public class FuncionariosServiceImpl implements FuncionariosService{
 	
 	@Autowired
-	FuncionariosRespository repository;
+	private FuncionariosRepository repository;
 	
 	@Override
-	public void saveFuncionario(Funcionarios funcionario) {
+	public Funcionarios saveFuncionario(Funcionarios funcionario) {
 		
-		repository.save(funcionario);
-
+		return repository.save(funcionario);
+		
 	}
 
 }

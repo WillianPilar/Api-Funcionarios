@@ -6,40 +6,50 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@NoArgsConstructor
 public class Funcionarios {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int id;
 	
+	@JsonProperty("NOME")
 	@Column(nullable = false, length = 100) //Para criar coluna no BD e passar as definições
 	private String nome;
 	
+	@JsonProperty("SETOR")
 	@Column(nullable = false, length = 100)
 	private String setor;
 	
+	@JsonProperty("GESTOR")
 	@Column(nullable = false, length = 100)
-	private String gestorDoFuncionario;
+	private String gestor;
 	
+	@JsonProperty("SALARIO")
 	@Column(nullable = false, length = 20)
-	private Double salarioBruto;
+	private String salario;
 	
+	@JsonProperty("VT")
 	@Column(nullable = false, length = 20)
-	private boolean valeTransporte;
-	
-	public Funcionarios(String nome, String setor, String gestorDoFuncionario, Double salarioBruto,
-			boolean valeTransporte) {
-		this.setNome(nome);
-		this.setSetor(setor);
-		this.setGestorDoFuncionario(gestorDoFuncionario);
-		this.setSalarioBruto(salarioBruto);
-		this.setValeTransporte(valeTransporte);
+	private String valeTransporte;
+
+
+	public Funcionarios(String nome, String setor, String gestor, String salario,
+			String valeTransporte) {
+		super();
+		this.nome = nome;
+		this.setor = setor;
+		this.gestor = gestor;
+		this.salario = salario;
+		this.valeTransporte = valeTransporte;
 	}
-	
+
+	public Funcionarios() {
+		super();
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -56,28 +66,27 @@ public class Funcionarios {
 		this.setor = setor;
 	}
 
-	public String getGestorDoFuncionario() {
-		return gestorDoFuncionario;
+	public String getGestor() {
+		return gestor;
 	}
 
-	public void setGestorDoFuncionario(String gestorDoFuncionario) {
-		this.gestorDoFuncionario = gestorDoFuncionario;
+	public void setGestor(String gestor) {
+		this.gestor = gestor;
 	}
 
-	public Double getSalarioBruto() {
-		return salarioBruto;
+	public String getSalario() {
+		return salario;
 	}
 
-	public void setSalarioBruto(Double salarioBruto) {
-		this.salarioBruto = salarioBruto;
+	public void setSalario(String salario) {
+		this.salario = salario;
 	}
 
-	public boolean isValeTransporte() {
+	public String getValeTransporte() {
 		return valeTransporte;
 	}
 
-	public void setValeTransporte(boolean valeTransporte) {
+	public void setValeTransporte(String valeTransporte) {
 		this.valeTransporte = valeTransporte;
 	}
-	
 }
