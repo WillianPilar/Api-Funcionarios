@@ -33,18 +33,21 @@ public class FuncionariosController {
 	@PostMapping("/new")
 	public ResponseEntity<Funcionarios> saveFuncionario(@RequestBody Funcionarios funcionarios){
 		
+		LOGGER.info("-----SALVANDO FUNCIONÁRIO-----");
+		
 		Funcionarios newFuncionario;
-		LOGGER.info("Recebendo dados do funcionário...");
+		
+		LOGGER.info("1 - Recebendo dados do funcionário...");
 		
 		try {
 			
-			LOGGER.info("Salvando dados do funcionário...");
+			LOGGER.info("2 - Salvando dados do funcionário...");
 			newFuncionario = service.saveFuncionario(funcionarios);
-			LOGGER.info("Dados do Funcionário salvos!");
+			LOGGER.info("3 - Dados do Funcionário salvos!");
 			
 		} catch (Exception e) {
 			
-			LOGGER.info("ERRO ao salvar dados do funcionário... {}", e);
+			LOGGER.info("3 - ERRO ao salvar dados do funcionário... {}", e);
 			newFuncionario = null;
 			return new ResponseEntity<Funcionarios>(newFuncionario, HttpStatus.EXPECTATION_FAILED);
 			
@@ -57,17 +60,19 @@ public class FuncionariosController {
 	@GetMapping("/search/{id}")
 	public ResponseEntity<Optional<Funcionarios>> getById(@PathVariable int id){
 		
+		LOGGER.info("-----PROCURANDO FUNCIONÁRIO PELO ID-----");
+		
 		Optional<Funcionarios> funcionario;
-			
-		LOGGER.info("Procurando funciorário pelo ID...");
+		
+		LOGGER.info("1 - Procurando funciorário pelo ID...");
 		funcionario = service.getFuncionarioById(id);
 		
 		if (funcionario.isPresent()) {
 			
-			LOGGER.info("Funcionário encontrado com sucesso!");
+			LOGGER.info("2 - Funcionário encontrado com sucesso!");
 			
 		}else {
-			LOGGER.info("Funcionário não foi encontrado.");
+			LOGGER.info("2 - Funcionário não foi encontrado.");
 			funcionario = null;
 
 			return new ResponseEntity<Optional<Funcionarios>>(funcionario, HttpStatus.NOT_FOUND);
@@ -81,19 +86,22 @@ public class FuncionariosController {
 	@GetMapping("/search/all")
 	public ResponseEntity<List<Funcionarios>> getAll(){
 		
+		LOGGER.info("-----PROCURANDO TODOS OS FUNCIONÁRIOS-----");
+		
 		List<Funcionarios> listFuncionarios = new ArrayList<>();
-		listFuncionarios = service.getListFuncionarios();
+		
 		
 		try {
 			
-			LOGGER.info("Procurando funcionários...");
+			LOGGER.info("1 - Procurando funcionários...");
 			
+			listFuncionarios = service.getListFuncionarios();
 			
-			LOGGER.info("Funcionários encontrados!");
+			LOGGER.info("2 - Funcionários encontrados!");
 			
 		} catch (Exception e) {
 			
-			LOGGER.info("Algo de errado aconteceu e os Funcionários não foram encontrados. {}", e);
+			LOGGER.info("2 - Algo de errado aconteceu e os Funcionários não foram encontrados. {}", e);
 			listFuncionarios = null;
 			
 			return new ResponseEntity<List<Funcionarios>>(listFuncionarios, HttpStatus.NOT_FOUND);
@@ -111,7 +119,7 @@ public class FuncionariosController {
 		
 		if(funcionario.isPresent()){
 			
-			LOGGER.info("Funcionário exites. Atualizando Funcionário...");
+			LOGGER.info("Funcionário exite. Atualizando Funcionário...");
 			update.setId(id);
 			service.updateFuncionarioById(update);
 		
