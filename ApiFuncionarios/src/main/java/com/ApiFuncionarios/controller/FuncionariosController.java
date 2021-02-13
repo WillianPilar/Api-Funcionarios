@@ -114,19 +114,24 @@ public class FuncionariosController {
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Funcionarios> updateFuncionario(@PathVariable int id, @RequestBody Funcionarios update){
 		
-		LOGGER.info("Pesquisando funcionário...");
+		LOGGER.info("-----ATUALIZANDO FUNCIONÁRIO-----");
+		
+		LOGGER.info("1 - Pesquisando funcionário...");
 		Optional<Funcionarios> funcionario = service.getFuncionarioById(id);
 		
 		if(funcionario.isPresent()){
 			
-			LOGGER.info("Funcionário exite. Atualizando Funcionário...");
+			LOGGER.info("2 - Funcionário existe. Atualizando Funcionário...");
+			
 			update.setId(id);
 			service.updateFuncionarioById(update);
+			
+			LOGGER.info("3 - Funcionário Atualizado.");
 		
 		}else {
 			
 			update = null;
-			LOGGER.info("Funcionário não foi encontrado.");
+			LOGGER.info("2 - Funcionário não foi encontrado.");
 			return new ResponseEntity<Funcionarios>(update, HttpStatus.NOT_FOUND);
 			
 		}
@@ -137,21 +142,23 @@ public class FuncionariosController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteFuncionario(@PathVariable int id){
 		
-		LOGGER.info("Pesquisando funcionário...");
+		LOGGER.info("-----DELETANDO FUNCIONÁRIO-----");
+		
+		LOGGER.info("1 - Pesquisando funcionário...");
 		Optional<Funcionarios> funcionario = service.getFuncionarioById(id);
 		
 		if(funcionario.isPresent()) {
 			
-			LOGGER.info("Funcionário encontrado. Deletando funcionário...");
+			LOGGER.info("2 - Funcionário encontrado. Deletando funcionário...");
 			
 			service.deleteById(id);
 			
-			LOGGER.info("Funcionário deletado.");
+			LOGGER.info("3 - Funcionário deletado.");
 			
 		}else {
 			
-			LOGGER.info("Funcionário não encontrado.");
-			return new ResponseEntity<String>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
+			LOGGER.info("2 - Funcionário não encontrado.");
+			return new ResponseEntity<String>("funcionário não encontrado.", HttpStatus.NOT_FOUND);
 			
 		}
 		
@@ -161,7 +168,25 @@ public class FuncionariosController {
 	@GetMapping("/search/setor")
 	public ResponseEntity<List<Funcionarios>> getSetor(@RequestParam String setor){
 		
-		List<Funcionarios> funcionariosDoSetor = service.findBySetor(setor);
+		LOGGER.info("-----PESQUISANDO FUNCIONÁRIOS POR SETOR");
+		List<Funcionarios> funcionariosDoSetor;
+		
+		try {
+			
+			LOGGER.info("1 - Pesquisando funcionários por setor...");
+			
+			funcionariosDoSetor = service.findBySetor(setor);
+			
+			LOGGER.info("2 - Funcionários do setor encontrados.");
+			
+		} catch (Exception e) {
+			
+			funcionariosDoSetor = null;
+			
+			LOGGER.info("2 - Funcionários do setor não foram encontrados. {}", e);
+			return new ResponseEntity<List<Funcionarios>>(funcionariosDoSetor, HttpStatus.NO_CONTENT);
+			
+		}
 		
 		return new ResponseEntity<List<Funcionarios>>(funcionariosDoSetor,  HttpStatus.OK);
 	}
