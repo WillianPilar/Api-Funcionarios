@@ -43,4 +43,24 @@ public class FuncionariosServiceImpl implements FuncionariosService{
 		
 	}
 
+	public Funcionarios updateFuncionarioById(Funcionarios update) {
+		
+		repository.save(update);
+		
+		return update;
+		
+	}
+
+	public void deleteById(int id) {
+		
+		repository.deleteById(id);
+		
+	}
+	
+	public List<Funcionarios> findBySetor(String setor){
+		
+		return repository.findBySetor(setor);
+		 
+	}
+
 }

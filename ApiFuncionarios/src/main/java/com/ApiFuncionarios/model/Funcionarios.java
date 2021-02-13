@@ -36,9 +36,9 @@ public class Funcionarios {
 	private String valeTransporte;
 
 
-	public Funcionarios(String nome, String setor, String gestor, String salario,
+	public Funcionarios(int id, String nome, String setor, String gestor, String salario,
 			String valeTransporte) {
-		super();
+		this.id = id;
 		this.nome = nome;
 		this.setor = setor;
 		this.gestor = gestor;
@@ -48,6 +48,14 @@ public class Funcionarios {
 
 	public Funcionarios() {
 		super();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNome() {

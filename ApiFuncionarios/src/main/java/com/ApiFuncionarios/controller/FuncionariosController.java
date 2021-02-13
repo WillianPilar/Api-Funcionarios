@@ -9,11 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ApiFuncionarios.Service.Impl.FuncionariosServiceImpl;
 import com.ApiFuncionarios.model.Funcionarios;
@@ -99,4 +102,60 @@ public class FuncionariosController {
 		return new ResponseEntity<List<Funcionarios>>(listFuncionarios, HttpStatus.OK);
 		
 	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<Funcionarios> updateFuncionario(@PathVariable int id, @RequestBody Funcionarios update){
+		
+		LOGGER.info("Pesquisando funcionário...");
+		Optional<Funcionarios> funcionario = service.getFuncionarioById(id);
+		
+		if(funcionario.isPresent()){
+			
+			LOGGER.info("Funcionário exites. Atualizando Funcionário...");
+			update.setId(id);
+			service.updateFuncionarioById(update);
+		
+		}else {
+			
+			update = null;
+			LOGGER.info("Funcionário não foi encontrado.");
+			return new ResponseEntity<Funcionarios>(update, HttpStatus.NOT_FOUND);
+			
+		}
+		
+		return new ResponseEntity<Funcionarios>(update, HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteFuncionario(@PathVariable int id){
+		
+		LOGGER.info("Pesquisando funcionário...");
+		Optional<Funcionarios> funcionario = service.getFuncionarioById(id);
+		
+		if(funcionario.isPresent()) {
+			
+			LOGGER.info("Funcionário encontrado. Deletando funcionário...");
+			
+			service.deleteById(id);
+			
+			LOGGER.info("Funcionário deletado.");
+			
+		}else {
+			
+			LOGGER.info("Funcionário não encontrado.");
+			return new ResponseEntity<String>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
+			
+		}
+		
+		return new ResponseEntity<String>("Funcionário "+ funcionario.get().getNome() + " foi deletado.", HttpStatus.OK);
+	}
+	
+	@GetMapping("/search/setor")
+	public ResponseEntity<List<Funcionarios>> getSetor(@RequestParam String setor){
+		
+		List<Funcionarios> funcionariosDoSetor = service.findBySetor(setor);
+		
+		return new ResponseEntity<List<Funcionarios>>(funcionariosDoSetor,  HttpStatus.OK);
+	}
+
 }

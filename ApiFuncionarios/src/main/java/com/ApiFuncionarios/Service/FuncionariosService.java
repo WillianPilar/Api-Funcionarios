@@ -12,4 +12,10 @@ public interface FuncionariosService {
 	public Optional<Funcionarios> getFuncionarioById(int id);
 
 	public List<Funcionarios> getListFuncionarios();
+	
+	public Funcionarios updateFuncionarioById(Funcionarios update);
+	
+	public void deleteById(int id);
+	
+	public List<Funcionarios> findBySetor(String setor);
 }
